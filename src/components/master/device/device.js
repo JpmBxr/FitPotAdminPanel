@@ -89,23 +89,23 @@ export const device = {
       tableItems: [],
       deviceTypeItems: [
         {
-          "value": "internal",
-          "name": "internal"
+          value: "internal",
+          name: "internal",
         },
         {
-          "value": "external",
-          "name": "external"
-        }
+          value: "external",
+          name: "external",
+        },
       ],
       deviceOsTypeItems: [
         {
-          "value": "android",
-          "name": "android"
+          value: "android",
+          name: "android",
         },
         {
-          "value": "ios",
-          "name": "ios"
-        }
+          value: "ios",
+          name: "ios",
+        },
       ],
       imageRule: [],
       selectedDeviceImage: null,
@@ -122,8 +122,7 @@ export const device = {
         Device_App_Ios_url: "device_app_ios_url",
         Status: "comp_type_status",
       },
-      excelFileName:
-        "Devices" + "_" + moment().format("DD/MM/YYYY") + ".xls",
+      excelFileName: "Devices" + "_" + moment().format("DD/MM/YYYY") + ".xls",
 
       //end
     };
@@ -163,7 +162,7 @@ export const device = {
       deep: true,
     },
     //#endregion
-    //#region 
+    //#region
     selectedDeviceImage(val) {
       this.selectedDeviceImage = val;
       this.imageRule =
@@ -183,7 +182,7 @@ export const device = {
       let { page, itemsPerPage, sortDesc, sortBy } = this.pagination;
       sortDesc = sortDesc.length > 0 && sortDesc[0] ? "desc" : "asc";
       sortBy = sortBy.length == 0 ? `device_id` : sortBy[0];
-      ApiService.get(ApiEndPoint.Devices.getDevices, {
+      ApiService.get(ApiEndPoint.Devices.webGetDevices, {
         itemsPerPage: itemsPerPage,
         sortColumn: sortBy,
         sortOrder: sortDesc,
@@ -217,7 +216,6 @@ export const device = {
 
     //#endregion
 
-  
     //#region  show add/edit dialog
     async showAddEditDialog(item) {
       // Show Add
@@ -228,10 +226,17 @@ export const device = {
       } else {
         // Show Edit (Update)
 
-        this.item = Object.assign({}, {
-          ...item,
-          device_os_type: this.deviceOsTypeItems.filter((d) => item?.device_os_type.split(",").includes(String(d.value))).map(v => v)
-        });
+        this.item = Object.assign(
+          {},
+          {
+            ...item,
+            device_os_type: this.deviceOsTypeItems
+              .filter((d) =>
+                item?.device_os_type.split(",").includes(String(d.value))
+              )
+              .map((v) => v),
+          }
+        );
         this.addEditText = `Edit ${this.entity} : ` + item.device_name;
         this.addEditDialog = true;
         this.addUpdateButtonText = "Update";
@@ -254,16 +259,22 @@ export const device = {
           postData.append("device_type", this.item.device_type);
           postData.append("device_auth_param", this.item.device_auth_param);
           postData.append("device_auth_url", this.item.device_auth_url);
-          postData.append("device_app_android_url", this.item.device_app_android_url);
+          postData.append(
+            "device_app_android_url",
+            this.item.device_app_android_url
+          );
           postData.append("device_app_ios_url", this.item.device_app_ios_url);
           postData.append("device_os_type", this.item.device_os_type);
-          postData.append("android_package_name", this.item.android_package_name);
+          postData.append(
+            "android_package_name",
+            this.item.android_package_name
+          );
           postData.append("ios_package_name", this.item.ios_package_name);
           postData.append("device_id", this.item.device_id);
           postData.append("is_device_auth_required", 0);
           postData.append("is_device_app_installation_required", 0);
-          
-          ApiService.post(ApiEndPoint.Devices.saveDevices, postData)
+
+          ApiService.post(ApiEndPoint.Devices.webSaveDevices, postData)
             .then((response) => {
               this.isDialogLoaderActive = false;
               this.close();
@@ -292,19 +303,33 @@ export const device = {
             postData.append("device_logo", this.selectedDeviceImage);
           }
           postData.append("device_name", this.item.device_name);
-          postData.append("device_type", this.item.device_type);
+
+          postData.append(
+            "device_type",
+            typeof this.item.device_type === "object"
+              ? this.item.device_type.map((d) => d.device_type).join(",")
+              : this.item.device_type !== null
+              ? this.item.device_type
+              : null
+          );
           postData.append("device_auth_param", this.item.device_auth_param);
           postData.append("device_auth_url", this.item.device_auth_url);
-          postData.append("device_app_android_url", this.item.device_app_android_url);
+          postData.append(
+            "device_app_android_url",
+            this.item.device_app_android_url
+          );
           postData.append("device_app_ios_url", this.item.device_app_ios_url);
           postData.append("device_os_type", this.item.device_os_type);
-          postData.append("android_package_name", this.item.android_package_name);
+          postData.append(
+            "android_package_name",
+            this.item.android_package_name
+          );
           postData.append("ios_package_name", this.item.ios_package_name);
           postData.append("device_id", this.item.device_id);
           postData.append("is_device_auth_required", 0);
           postData.append("is_device_app_installation_required", 0);
 
-          ApiService.post(ApiEndPoint.Devices.updateDevices, postData)
+          ApiService.post(ApiEndPoint.Devices.webUpdateDevices, postData)
             .then((response) => {
               this.isDialogLoaderActive = false;
               this.close();
@@ -350,13 +375,10 @@ export const device = {
       if (result.isConfirmed) {
         this.isLoaderActive = true;
 
-        ApiService.post(
-          ApiEndPoint.Devices.changeDeviceAuthStatus,
-          {
-            device_id: passedItem.device_id,
-            is_device_auth_required: passedItem.is_device_auth_required,
-          }
-        )
+        ApiService.post(ApiEndPoint.Devices.webChangeDeviceAuthStatus, {
+          device_id: passedItem.device_id,
+          is_device_auth_required: passedItem.is_device_auth_required,
+        })
           .then((response) => {
             this.isLoaderActive = false;
             if (response.data.success == "true") {
@@ -393,13 +415,10 @@ export const device = {
       if (result.isConfirmed) {
         this.isLoaderActive = true;
 
-        ApiService.post(
-          ApiEndPoint.Devices.changeDeviceStatus,
-          {
-            device_id: passedItem.device_id,
-            device_status: passedItem.device_status,
-          }
-        )
+        ApiService.post(ApiEndPoint.Devices.webChangeDeviceStatus, {
+          device_id: passedItem.device_id,
+          device_status: passedItem.device_status,
+        })
           .then((response) => {
             this.isLoaderActive = false;
             if (response.data.success == "true") {
@@ -435,7 +454,7 @@ export const device = {
       );
       if (result.isConfirmed) {
         this.isLoaderActive = true;
-        ApiService.post(ApiEndPoint.Devices.deleteDevices, {
+        ApiService.post(ApiEndPoint.Devices.webDeleteDevices, {
           device_id: passedItem.device_id,
         })
           .then((response) => {

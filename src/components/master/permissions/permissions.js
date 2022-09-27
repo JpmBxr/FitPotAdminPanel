@@ -128,7 +128,7 @@ export const permissions = {
       let { page, itemsPerPage, sortDesc, sortBy } = this.pagination;
       sortDesc = sortDesc.length > 0 && sortDesc[0] ? "desc" : "asc";
       sortBy = sortBy.length == 0 ? `id` : sortBy[0];
-      ApiService.get(ApiEndPoint.Permissions.getAllPermissions, {
+      ApiService.get(ApiEndPoint.Permissions.webGetAllPermissions, {
         itemsPerPage: itemsPerPage,
         sortColumn: sortBy,
         sortOrder: sortDesc,
@@ -185,14 +185,14 @@ export const permissions = {
           // save
 
           this.isDialogLoaderActive = true;
-          ApiService.post(ApiEndPoint.Permissions.savePermissions, {
+          ApiService.post(ApiEndPoint.Permissions.webSavePermissions, {
             name: this.item.name,
           
           })
             .then((response) => {
               this.isDialogLoaderActive = false;
               this.close();
-              if (response.data.success == "true") {
+              if (response.data.result == "success") {
                 Global.showSuccessAlert(true, "success", response.data.message);
                 this.getAllPermissions();
               } else if (response.data.result == "error") {
@@ -213,7 +213,7 @@ export const permissions = {
           //update
 
           this.isDialogLoaderActive = true;
-          ApiService.post(ApiEndPoint.Permissions.updatePermissions, {
+          ApiService.post(ApiEndPoint.Permissions.webUpdatePermissions, {
             id: this.item.id,
             name: this.item.name,
             
@@ -221,7 +221,7 @@ export const permissions = {
             .then((response) => {
               this.isDialogLoaderActive = false;
               this.close();
-              if (response.data.success == "true") {
+              if (response.data.result == "success") {
                 Global.showSuccessAlert(true, "success", response.data.message);
                 this.getAllPermissions();
               } else if (response.data.result == "error") {
@@ -262,7 +262,7 @@ export const permissions = {
       );
       if (result.isConfirmed) {
         this.isLoaderActive = true;
-        ApiService.post(ApiEndPoint.Permissions.deletePermissions, {
+        ApiService.post(ApiEndPoint.Permissions.webDeletePermissions, {
           id: passedItem.id,
         })
           .then((response) => {

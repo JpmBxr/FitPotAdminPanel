@@ -188,7 +188,7 @@ export const roles = {
             .then((response) => {
               this.isDialogLoaderActive = false;
               this.close();
-              if (response.data.success == "true") {
+              if (response.data.result == "success") {
                 Global.showSuccessAlert(true, "success", response.data.message);
                 this.getRolesList();
               } else if (response.data.result == "error") {
@@ -217,7 +217,7 @@ export const roles = {
             .then((response) => {
               this.isDialogLoaderActive = false;
               this.close();
-              if (response.data.success == "true") {
+              if (response.data.result == "success") {
                 Global.showSuccessAlert(true, "success", response.data.message);
                 this.getRolesList();
               } else if (response.data.result == "error") {
@@ -307,7 +307,7 @@ export const roles = {
         })
           .then((response) => {
             this.isLoaderActive = false;
-            if (response.data.success == "true") {
+            if (response.data.result == "success") {
               Global.showSuccessAlert(true, "success", response.data.message);
               this.getRolesList();
             } else if (response.data.result == "error") {

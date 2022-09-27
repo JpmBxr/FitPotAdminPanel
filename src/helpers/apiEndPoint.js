@@ -40,12 +40,12 @@ export const ApiEndPoint = {
   //#endregion
   //#region Devices
   Devices:{
-    getDevices: "getDevices",
-    saveDevices: "saveDevices",
-    updateDevices:"updateDevices",
-    changeDeviceStatus: "changeDeviceStatus",
-    changeDeviceAuthStatus:"changeDeviceAuthStatus",
-    deleteDevices: "deleteDevices",
+    webGetDevices: "webGetDevices",
+    webSaveDevices: "webSaveDevices",
+    webUpdateDevices: "webUpdateDevices",
+    webChangeDeviceStatus: "webChangeDeviceStatus",
+    webChangeDeviceAuthStatus:"webChangeDeviceAuthStatus",
+    webDeleteDevices: "webDeleteDevices",
   },
   //#endregion
   //#region Roles
@@ -60,19 +60,19 @@ export const ApiEndPoint = {
   //#region User
   Users:{
     webGetRolesWithoutPagination: "webGetRolesWithoutPagination",
-    getUsers: "getUsers",
-    saveUsers: "saveUsers",
-    updateUsers:"updateUsers",
-    changeUsersStatus: "changeUsersStatus",
-    deleteUsers: "deleteUsers",
+    webGetUsers: "webGetUsers",
+    webSaveUsers: "webSaveUsers",
+    webUpdateUsers: "webUpdateUsers",
+    webChangeUsersStatus: "webChangeUsersStatus",
+    webDeleteUsers: "webDeleteUsers",
   },
   //#endregion
   //#region Permissions
   Permissions:{
-    getAllPermissions: "getAllPermissions",
-    savePermissions: "savePermissions",
-    updatePermissions:"updatePermissions",
-    deletePermissions: "deletePermissions",
+    webGetAllPermissions: "webGetAllPermissions",
+    webSavePermissions: "webSavePermissions",
+    webUpdatePermissions: "webUpdatePermissions",
+    webDeletePermissions: "webDeletePermissions",
   },
   //#endregion
 

@@ -7,10 +7,7 @@ export const competitionMaster = {
   mixins: [globalMixin],
   //#region  Data section
 
-
   data() {
-
-
     return {
       // Data Table
       tableLoadingDataText: "Loading data",
@@ -120,13 +117,10 @@ export const competitionMaster = {
         Min_Km_Per_Days: "comp_master_minimum_km_per_day",
         Total_Km: "comp_master_total_km",
         Status: "comp_type_status",
-
       },
-      excelFileName:
-        "Master" + "_" + moment().format("DD/MM/YYYY") + ".xls",
+      excelFileName: "Master" + "_" + moment().format("DD/MM/YYYY") + ".xls",
       //end
     };
-
   },
   //#endregion
 
@@ -168,13 +162,12 @@ export const competitionMaster = {
   },
   //#endregion
 
-  
-  //#region loading activity, week days, rest day on page load/ mount 
-  mounted() {
+  //#region loading activity, week days, rest day on page load/ mount
+   mounted() {
     // Show Add in dialog
     this.getActivity();
-    this.getWeekDay();
-    this.getRestDay();
+     this.getWeekDay();
+     this.getRestDay();
   },
   //#endregion
 
@@ -219,7 +212,7 @@ export const competitionMaster = {
     //#endregion
 
     //#region  show add/edit dialog
-    async showAddEditDialog(item) {
+     showAddEditDialog(item) {
       // Show Add
       if (item == null && this.isAddEdit == true) {
         this.addEditText = `Add ${this.entity}`;
@@ -227,19 +220,28 @@ export const competitionMaster = {
         this.addUpdateButtonText = " Add ";
       } else {
         // Show Edit (Update)
-        const comp_master_start_day = this.weekDayItems.filter((w) => item?.comp_master_start_day.split(",").includes(String(w.id))).map(d => d);
-        const comp_master_rest_day = this.restDayItems.filter((w) => item?.comp_master_rest_day.split(",").includes(String(w.id))).map(d => d);
+        const comp_master_start_day = this.weekDayItems
+          .filter((w) =>
+            item?.comp_master_start_day.split(",").includes(String(w.id))
+          )
+          .map((d) => d);
+        const comp_master_rest_day = this.restDayItems
+          .filter((w) =>
+            item?.comp_master_rest_day.split(",").includes(String(w.id))
+          )
+          .map((d) => d);
         this.item = {
           ...item,
           comp_master_start_day,
-          comp_master_rest_day
+          comp_master_rest_day,
         };
         this.addEditText = `Edit ${this.entity} : ` + item.comp_master_name;
         this.addEditDialog = true;
         this.addUpdateButtonText = "Update";
-        await this.getCategory();
-        await this.getCompetitionType();
+       this.getCategory();
+       this.getCompetitionType();
        
+
       }
     },
     //#endregion
@@ -248,7 +250,8 @@ export const competitionMaster = {
     getActivity() {
       this.isDialogLoaderActive = true;
       ApiService.get(
-        ApiEndPoint.CompetitionMaster.webGetCompetitionActivityWithoutPagination,
+        ApiEndPoint.CompetitionMaster
+          .webGetCompetitionActivityWithoutPagination,
         {}
       )
         .then((response) => {
@@ -268,13 +271,13 @@ export const competitionMaster = {
     getCategory() {
       this.isDialogLoaderActive = true;
       ApiService.get(
-        ApiEndPoint.CompetitionMaster.webGetCompetitionCategoryWithoutPagination,
+        ApiEndPoint.CompetitionMaster
+          .webGetCompetitionCategoryWithoutPagination,
         { comp_activity_id: this.item.comp_activity_id }
       )
         .then((response) => {
           this.isDialogLoaderActive = false;
           this.categoryItems = response.data.resultData;
-
         })
         .catch((error) => {
           this.isDialogLoaderActive = false;
@@ -285,14 +288,14 @@ export const competitionMaster = {
     },
     //#endregion
 
-    //#region  to load Competition Type 
+    //#region  to load Competition Type
     getCompetitionType() {
       this.isDialogLoaderActive = true;
       ApiService.get(
         ApiEndPoint.CompetitionMaster.webGetCompetitionTypeWithoutPagination,
         {
           comp_category_id: this.item.comp_category_id,
-          comp_activity_id: this.item.comp_activity_id
+          comp_activity_id: this.item.comp_activity_id,
         }
       )
         .then((response) => {
@@ -309,73 +312,78 @@ export const competitionMaster = {
     //#endregion
 
     //#region  to load Week Day
-        getWeekDay() {
-          this.isDialogLoaderActive = true;
-          ApiService.get(
-            ApiEndPoint.CompetitionMaster.webGetWeekdayWithoutPagination,
-            {}
-          )
-            .then((response) => {
-              this.isDialogLoaderActive = false;
-    
-              this.weekDayItems = response.data.resultData;
-            })
-            .catch((error) => {
-              this.isDialogLoaderActive = false;
-              if (error.response.status != 401 && error.response.status != 403) {
-                this.showErrorAlert(true, "error", "Something went wrong");
-              }
-            });
-        },
-        //#endregion
-    
+    async getWeekDay() {
+      this.isDialogLoaderActive = true;
+      try {
+        const response = ApiService.get(
+          ApiEndPoint.CompetitionMaster.webGetWeekdayWithoutPagination,
+          {}
+        );
+        this.weekDayItems = response.data.resultData;
+        this.isDialogLoaderActive = false;
+      } catch (error) {
+        this.isDialogLoaderActive = false;
+        if (error.response.status != 401 && error.response.status != 403) {
+          this.showErrorAlert(true, "error", "Something went wrong");
+        }
+      }
+    },
+    //#endregion
+
     //#region  to load Rest Day
-        getRestDay() {
-          this.isDialogLoaderActive = true;
-          ApiService.get(
-            ApiEndPoint.CompetitionMaster.webGetWeekdayWithoutPagination,
-            {}
-          )
-            .then((response) => {
-              this.isDialogLoaderActive = false;
-              this.restDayItems = response.data.resultData;
-            })
-            .catch((error) => {
-              this.isDialogLoaderActive = false;
-              if (error.response.status != 401 && error.response.status != 403) {
-                this.showErrorAlert(true, "error", "Something went wrong");
-              }
-            });
-        },
-        //#endregion
-    
+    async getRestDay() {
+      this.isDialogLoaderActive = true;
+      try {
+        const response = ApiService.get(
+          ApiEndPoint.CompetitionMaster.webGetWeekdayWithoutPagination,
+          {}
+        );
+        this.restDayItems = response.data.resultData;
+        console.log("------->", response.data.resultData );
+        this.isDialogLoaderActive = false;
+      } catch (error) {
+        this.isDialogLoaderActive = false;
+        if (error.response.status != 401 && error.response.status != 403) {
+          this.showErrorAlert(true, "error", "Something went wrong");
+        }
+      }
+    },
+    //#endregion
+
     //#region  add/edit item
     addEditItem() {
       if (this.$refs.holdingFormAddEdit.validate()) {
         if (this.isAddEdit) {
           // save
           this.isDialogLoaderActive = true;
-          ApiService.post(ApiEndPoint.CompetitionMaster.webSaveCompetitionMaster, {
-            comp_master_name: this.item.comp_master_name,
-            comp_master_days: this.item.comp_master_days,
-            comp_master_total_km: this.item.comp_master_total_km,
-            comp_master_minimum_km_per_day: this.item.comp_master_minimum_km_per_day,
-            comp_master_max_participant: this.item.comp_master_max_participant,
-            comp_master_min_participant: this.item.comp_master_min_participant,
-            comp_master_pot_value: this.item.comp_master_pot_value,
-            comp_master_created_by: this.item.comp_master_created_by,
-            comp_master_status: this.item.comp_master_status,
-            comp_activity_id: this.item.comp_activity_id,
-            comp_category_id: this.item.comp_category_id,
-            comp_type_id: this.item.comp_type_id,
-            daily_loyalty_point: this.item.daily_loyalty_point,
-            achievers_loyalty_point: this.item.achievers_loyalty_point,
-            comp_master_per_partition_value: this.item.comp_master_per_partition_value,
-            comp_master_start_day: this.item.comp_master_start_day.toString(),
-            comp_master_rest_day: this.item.comp_master_rest_day,
-            comp_master_created_by: 1,
-            comp_master_status: 1
-          })
+          ApiService.post(
+            ApiEndPoint.CompetitionMaster.webSaveCompetitionMaster,
+            {
+              comp_master_name: this.item.comp_master_name,
+              comp_master_days: this.item.comp_master_days,
+              comp_master_total_km: this.item.comp_master_total_km,
+              comp_master_minimum_km_per_day:
+                this.item.comp_master_minimum_km_per_day,
+              comp_master_max_participant:
+                this.item.comp_master_max_participant,
+              comp_master_min_participant:
+                this.item.comp_master_min_participant,
+              comp_master_pot_value: this.item.comp_master_pot_value,
+              comp_master_created_by: this.item.comp_master_created_by,
+              comp_master_status: this.item.comp_master_status,
+              comp_activity_id: this.item.comp_activity_id,
+              comp_category_id: this.item.comp_category_id,
+              comp_type_id: this.item.comp_type_id,
+              daily_loyalty_point: this.item.daily_loyalty_point,
+              achievers_loyalty_point: this.item.achievers_loyalty_point,
+              comp_master_per_partition_value:
+                this.item.comp_master_per_partition_value,
+              comp_master_start_day: this.item.comp_master_start_day.toString(),
+              comp_master_rest_day: this.item.comp_master_rest_day.toString(),
+              comp_master_created_by: 1,
+              comp_master_status: 1,
+            }
+          )
             .then((response) => {
               this.isDialogLoaderActive = false;
               this.close();
@@ -399,28 +407,44 @@ export const competitionMaster = {
         } else {
           //update
           this.isDialogLoaderActive = true;
-          ApiService.post(ApiEndPoint.CompetitionMaster.webUpdateCompetitionMaster, {
-            comp_master_name: this.item.comp_master_name,
-            comp_master_days: this.item.comp_master_days,
-            comp_master_total_km: this.item.comp_master_total_km,
-            comp_master_minimum_km_per_day: this.item.comp_master_minimum_km_per_day,
-            comp_master_max_participant: this.item.comp_master_max_participant,
-            comp_master_min_participant: this.item.comp_master_min_participant,
-            comp_master_pot_value: this.item.comp_master_pot_value,
-            comp_master_created_by: this.item.comp_master_created_by,
-            comp_master_status: this.item.comp_master_status,
-            comp_activity_id: this.item.comp_activity_id,
-            comp_category_id: this.item.comp_category_id,
-            comp_type_id: this.item.comp_type_id,
-            daily_loyalty_point: this.item.daily_loyalty_point,
-            achievers_loyalty_point: this.item.achievers_loyalty_point,
-            comp_master_per_partition_value: this.item.comp_master_per_partition_value,
-            comp_master_start_day: this.item.comp_master_start_day.toString(),
-            comp_master_rest_day: this.item.comp_master_rest_day,
-            comp_master_id: this.item.comp_master_id,
-            comp_master_created_by: 1,
-            comp_master_status: 1
-          })
+          ApiService.post(
+            ApiEndPoint.CompetitionMaster.webUpdateCompetitionMaster,
+            {
+              comp_master_name: this.item.comp_master_name,
+              comp_master_days: this.item.comp_master_days,
+              comp_master_total_km: this.item.comp_master_total_km,
+              comp_master_minimum_km_per_day:
+                this.item.comp_master_minimum_km_per_day,
+              comp_master_max_participant:
+                this.item.comp_master_max_participant,
+              comp_master_min_participant:
+                this.item.comp_master_min_participant,
+              comp_master_pot_value: this.item.comp_master_pot_value,
+              comp_master_created_by: this.item.comp_master_created_by,
+              comp_master_status: this.item.comp_master_status,
+              comp_activity_id: this.item.comp_activity_id,
+              comp_category_id: this.item.comp_category_id,
+              comp_type_id: this.item.comp_type_id,
+              daily_loyalty_point: this.item.daily_loyalty_point,
+              achievers_loyalty_point: this.item.achievers_loyalty_point,
+              comp_master_per_partition_value:
+                this.item.comp_master_per_partition_value,
+
+            //     "city_id",
+            // typeof this.item.city_id === "object"
+            //   ? this.item.city_id.map((d) => d.city_id).join(",")
+            //   : this.item.city_id !== null
+            //   ? this.item.city_id
+            //   : null
+
+              comp_master_start_day: this.item.comp_master_start_day.map((d) => d.city_id).join(","),
+              comp_master_rest_day: this.item.comp_master_rest_day.map((d) => d.city_id).join(","),
+
+              comp_master_id: this.item.comp_master_id,
+              comp_master_created_by: 1,
+              comp_master_status: 1,
+            }
+          )
             .then((response) => {
               this.isDialogLoaderActive = false;
               this.close();
@@ -451,11 +475,14 @@ export const competitionMaster = {
     close() {
       this.addEditDialog = false;
       setTimeout(() => {
-        this.item = Object.assign({}, {
-          activityItems: this.activityItems,
-          weekDayItems: this.weekDayItems,
-          restDayItems: this.restDayItems,
-        });
+        this.item = Object.assign(
+          {},
+          {
+            activityItems: this.activityItems,
+            weekDayItems: this.weekDayItems,
+            restDayItems: this.restDayItems,
+          }
+        );
       }, 300);
     },
     //#endregion
@@ -471,10 +498,11 @@ export const competitionMaster = {
         this.isLoaderActive = true;
 
         ApiService.post(
-          ApiEndPoint.CompetitionMaster.webChangeCompetitionMasterStatus, {
-          Id: item.comp_master_id,
-          comp_master_status: item.comp_master_status,
-        }
+          ApiEndPoint.CompetitionMaster.webChangeCompetitionMasterStatus,
+          {
+            Id: item.comp_master_id,
+            comp_master_status: item.comp_master_status,
+          }
         )
           .then((response) => {
             this.isLoaderActive = false;
@@ -511,9 +539,12 @@ export const competitionMaster = {
       );
       if (result.isConfirmed) {
         this.isLoaderActive = true;
-        ApiService.post(ApiEndPoint.CompetitionMaster.webDeleteCompetitionMaster, {
-          comp_master_id: passedItem.comp_master_id,
-        })
+        ApiService.post(
+          ApiEndPoint.CompetitionMaster.webDeleteCompetitionMaster,
+          {
+            comp_master_id: passedItem.comp_master_id,
+          }
+        )
           .then((response) => {
             this.isLoaderActive = false;
             if (response.data.success == "true") {

@@ -141,7 +141,7 @@ export const users = {
       let { page, itemsPerPage, sortDesc, sortBy } = this.pagination;
       sortDesc = sortDesc.length > 0 && sortDesc[0] ? "desc" : "asc";
       sortBy = sortBy.length == 0 ? `user_id` : sortBy[0];
-      ApiService.get(ApiEndPoint.Users.getUsers, {
+      ApiService.get(ApiEndPoint.Users.webGetUsers, {
         itemsPerPage: itemsPerPage,
         sortColumn: sortBy,
         sortOrder: sortDesc,
@@ -224,7 +224,7 @@ export const users = {
           // save
 
           this.isDialogLoaderActive = true;
-          ApiService.post(ApiEndPoint.Users.saveUsers, {
+          ApiService.post(ApiEndPoint.Users.webSaveUsers, {
             UserType: this.item.UserType,
             user_mobile: this.item.user_mobile,
             user_email: this.item.user_email,
@@ -256,7 +256,7 @@ export const users = {
           //update
 
           this.isDialogLoaderActive = true;
-          ApiService.post(ApiEndPoint.Users.updateUsers, {
+          ApiService.post(ApiEndPoint.Users.webUpdateUsers, {
 
             UserType: this.item.UserType,
             user_mobile: this.item.user_mobile,
@@ -311,7 +311,7 @@ export const users = {
         this.isLoaderActive = true;
 
         ApiService.post(
-          ApiEndPoint.Users.changeUsersStatus,
+          ApiEndPoint.Users.webChangeUsersStatus,
           {
             user_id: passedItem.user_id,
             user_status: passedItem.user_status,
@@ -353,7 +353,7 @@ export const users = {
       );
       if (result.isConfirmed) {
         this.isLoaderActive = true;
-        ApiService.post(ApiEndPoint.Users.deleteUsers, {
+        ApiService.post(ApiEndPoint.Users.webDeleteUsers, {
           user_id: passedItem.user_id,
         })
           .then((response) => {
