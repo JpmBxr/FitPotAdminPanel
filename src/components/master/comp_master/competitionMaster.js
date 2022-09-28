@@ -312,41 +312,44 @@ export const competitionMaster = {
     //#endregion
 
     //#region  to load Week Day
-    async getWeekDay() {
+    getWeekDay() {
       this.isDialogLoaderActive = true;
-      try {
-        const response = ApiService.get(
-          ApiEndPoint.CompetitionMaster.webGetWeekdayWithoutPagination,
-          {}
-        );
-        this.weekDayItems = response.data.resultData;
-        this.isDialogLoaderActive = false;
-      } catch (error) {
-        this.isDialogLoaderActive = false;
-        if (error.response.status != 401 && error.response.status != 403) {
-          this.showErrorAlert(true, "error", "Something went wrong");
-        }
-      }
+      ApiService.get(
+        ApiEndPoint.CompetitionMaster
+          .webGetWeekdayWithoutPagination,
+        {}
+      )
+        .then((response) => {
+          this.isDialogLoaderActive = false;
+          this.weekDayItems = response.data.resultData;
+        })
+        .catch((error) => {
+          this.isDialogLoaderActive = false;
+          if (error.response.status != 401 && error.response.status != 403) {
+            this.showErrorAlert(true, "error", "Something went wrong");
+          }
+        });
     },
     //#endregion
 
     //#region  to load Rest Day
-    async getRestDay() {
+    getRestDay() {
       this.isDialogLoaderActive = true;
-      try {
-        const response = ApiService.get(
-          ApiEndPoint.CompetitionMaster.webGetWeekdayWithoutPagination,
-          {}
-        );
-        this.restDayItems = response.data.resultData;
-        console.log("------->", response.data.resultData );
-        this.isDialogLoaderActive = false;
-      } catch (error) {
-        this.isDialogLoaderActive = false;
-        if (error.response.status != 401 && error.response.status != 403) {
-          this.showErrorAlert(true, "error", "Something went wrong");
-        }
-      }
+      ApiService.get(
+        ApiEndPoint.CompetitionMaster
+          .webGetWeekdayWithoutPagination,
+        {}
+      )
+        .then((response) => {
+          this.isDialogLoaderActive = false;
+          this.restDayItems = response.data.resultData;
+        })
+        .catch((error) => {
+          this.isDialogLoaderActive = false;
+          if (error.response.status != 401 && error.response.status != 403) {
+            this.showErrorAlert(true, "error", "Something went wrong");
+          }
+        });
     },
     //#endregion
 
@@ -430,15 +433,22 @@ export const competitionMaster = {
               comp_master_per_partition_value:
                 this.item.comp_master_per_partition_value,
 
-            //     "city_id",
-            // typeof this.item.city_id === "object"
-            //   ? this.item.city_id.map((d) => d.city_id).join(",")
-            //   : this.item.city_id !== null
-            //   ? this.item.city_id
-            //   : null
-
-              comp_master_start_day: this.item.comp_master_start_day.map((d) => d.city_id).join(","),
-              comp_master_rest_day: this.item.comp_master_rest_day.map((d) => d.city_id).join(","),
+              comp_master_start_day:
+                typeof this.item.comp_master_start_day === "object"
+                  ? this.item.comp_master_start_day
+                      .map((d) => d.comp_master_start_day)
+                      .join(",")
+                  : this.item.comp_master_start_day !== null
+                  ? this.item.comp_master_start_day
+                  : null,
+              comp_master_rest_day:
+                typeof this.item.comp_master_rest_day === "object"
+                  ? this.item.comp_master_rest_day
+                      .map((d) => d.comp_master_rest_day)
+                      .join(",")
+                  : this.item.comp_master_rest_day !== null
+                  ? this.item.comp_master_rest_day
+                  : null,
 
               comp_master_id: this.item.comp_master_id,
               comp_master_created_by: 1,
