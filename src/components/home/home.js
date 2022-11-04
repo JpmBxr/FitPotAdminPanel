@@ -44,20 +44,21 @@ export const home = {
 
       menuItemsReports: [
         {
-          text: "Booking Details",
-          icon: "mdi-checkbox-marked-outline",
-          to: "/home/reports/bookingDetails/booking-details",
+          text: "User Details",
+          icon: "mdi-chevron-double-right",
+          to: "/home/reports/userDetails/user-details",
         },
         {
-          text: "Clinic Wise Booking",
-          icon: "mdi-chart-histogram",
-          to: "/home/reports/clinicBookingDetails/clinic-booking-details",
+          text: "Subscribe User",
+          icon: "mdi-chevron-double-right",
+          to: "/home/reports/subscribeUser/subscribe-user",
         },
         {
-          text: "Upcoming Booking",
-          icon: "mdi-chart-histogram",
-          to: "/home/reports/upcomingClinicBookingDetails/upcoming-clinic-booking-details",
+          text: "User Wise Comepetition",
+          icon: "mdi-chevron-double-right",
+          to: "/home/reports/userWiseComepetition/user-wise-comepetition",
         },
+        
       ],
       //#endregion
 

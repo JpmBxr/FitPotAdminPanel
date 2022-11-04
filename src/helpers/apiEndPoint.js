@@ -76,11 +76,17 @@ export const ApiEndPoint = {
   },
   //#endregion
 
-  //#region  Area End point
-  BookingDetails: {
-    getBookingDetails: "getBookingDetails",
-    clinicWiseBooking: "clinicWiseBooking",
-    upcomingBookingDetails: "upcomingBookingDetails",
+  //#region  Report
+  UsereDetails: {
+    webGetUserReport: "webGetUserReport",
+  },
+
+  SubscribedUser: {
+    webGetSubscribedUserReport: "webGetSubscribedUserReport",
+  },
+
+  UserWiseComepetition: {
+    webGetUserWiseComepetitionReport: "webGetUserWiseComepetitionReport",
   },
   //#endregion
 };

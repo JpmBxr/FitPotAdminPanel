@@ -93,41 +93,39 @@ const router = new Router({
 
         //#endregion
 
+        //#region report
         {
-          path: "reports/bookingDetails/booking-details",
+          path: "/home/reports/userDetails/user-details",
           component:
-            require("../components/reports/bookingDetails/BookingDetails.vue")
+            require("../components/reports/userDetails/UserDetails.vue")
               .default,
-          name: "Area",
-          meta: {
-            requiresAuth: true,
-          },
-        },
-
-        {
-          path: "reports/clinicBookingDetails/clinic-booking-details",
-          component:
-            require("../components/reports/clinicBookingDetails/ClinicBookingDetails.vue")
-              .default,
-          name: "Area",
+          name: "User Details",
           meta: {
             requiresAuth: true,
           },
         },
         {
-          path: "reports/upcomingClinicBookingDetails/upcoming-clinic-booking-details",
+          path: "/home/reports/subscribeUser/subscribe-user",
           component:
-            require("../components/reports/upcomingClinicBookingDetails/UpcomingClinicBookingDetails.vue")
+            require("../components/reports/subscribeUser/SubscribeUser.vue")
               .default,
-          name: "Area",
+          name: "Subscribe User", 
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "/home/reports/userWiseComepetition/user-wise-comepetition",
+          component:
+            require("../components/reports/userWiseComepetition/UserWiseComepetition.vue")
+              .default,
+          name: "User Wise Comepetition ", 
           meta: {
             requiresAuth: true,
           },
         },
 
         //#endregion
-
-        ,
       ],
     },
     {
