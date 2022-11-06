@@ -190,10 +190,9 @@ export const device = {
         searchText: this.searchText,
       })
         .then((response) => {
+          console.log("getDeviceList=============>", response);
           this.tableDataLoading = false;
-
           this.tableItems = response.data.resultData.data;
-          console.log(response);
           this.totalItemsInDB = response.data.resultData.total;
         })
         .catch((error) => {

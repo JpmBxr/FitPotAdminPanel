@@ -96,7 +96,6 @@
               >{{ item.user_status }}</v-chip
             >
           </template>
-
         </v-data-table>
       </transition>
 

@@ -85,14 +85,14 @@ export const competitionMaster = {
       ],
 
       pagination: {},
-      entity: "Master",
+      entity: "Competition",
       searchText: "", // search
       totalItemsInDB: 0,
       item: {},
       addEditDialog: false,
       isFormAddEditValid: false,
       isAddEdit: true,
-      addUpdateButtonText: "Add Master",
+      addUpdateButtonText: "Add Competition",
       addEditText: "Add",
       isLoaderActive: false,
       isDialogLoaderActive: false,
@@ -187,10 +187,9 @@ export const competitionMaster = {
         searchText: this.searchText,
       })
         .then((response) => {
+          console.log("getCompetitionMasterList------------>", response);
           this.tableDataLoading = false;
-
           this.tableItems = response.data.resultData.data;
-          console.log(response);
           this.totalItemsInDB = response.data.resultData.total;
         })
         .catch((error) => {
@@ -208,41 +207,6 @@ export const competitionMaster = {
       this._timerId = setTimeout(() => {
         this.getCompetitionMasterList();
       }, 500);
-    },
-    //#endregion
-
-    //#region  show add/edit dialog
-     showAddEditDialog(item) {
-      // Show Add
-      if (item == null && this.isAddEdit == true) {
-        this.addEditText = `Add ${this.entity}`;
-        this.addEditDialog = true;
-        this.addUpdateButtonText = " Add ";
-      } else {
-        // Show Edit (Update)
-        const comp_master_start_day = this.weekDayItems
-          .filter((w) =>
-            item?.comp_master_start_day.split(",").includes(String(w.id))
-          )
-          .map((d) => d);
-        const comp_master_rest_day = this.restDayItems
-          .filter((w) =>
-            item?.comp_master_rest_day.split(",").includes(String(w.id))
-          )
-          .map((d) => d);
-        this.item = {
-          ...item,
-          comp_master_start_day,
-          comp_master_rest_day,
-        };
-        this.addEditText = `Edit ${this.entity} : ` + item.comp_master_name;
-        this.addEditDialog = true;
-        this.addUpdateButtonText = "Update";
-       this.getCategory();
-       this.getCompetitionType();
-       
-
-      }
     },
     //#endregion
 
@@ -353,6 +317,41 @@ export const competitionMaster = {
     },
     //#endregion
 
+       //#region  show add/edit dialog
+       showAddEditDialog(item) {
+        // Show Add
+        if (item == null && this.isAddEdit == true) {
+          this.addEditText = `Add ${this.entity}`;
+          this.addEditDialog = true;
+          this.addUpdateButtonText = " Add ";
+        } else {
+          // Show Edit (Update)
+          let comp_master_start_day = this.weekDayItems
+            .filter((w) =>
+              item?.comp_master_start_day.split(",").includes(String(w.id))
+            )
+            .map((d) => d);
+          let comp_master_rest_day = this.restDayItems
+            .filter((w) =>
+              item?.comp_master_rest_day.split(",").includes(String(w.id))
+            )
+            .map((d) => d);
+          this.item =  Object.assign(
+          {},
+          {
+            ...item,
+            comp_master_start_day,
+            comp_master_rest_day,
+          });
+          this.addEditText = `Edit ${this.entity} : ` + item.comp_master_name;
+          this.addEditDialog = true;
+          this.addUpdateButtonText = "Update";
+         this.getCategory();
+         this.getCompetitionType();
+        }
+      },
+      //#endregion  
+
     //#region  add/edit item
     addEditItem() {
       if (this.$refs.holdingFormAddEdit.validate()) {
@@ -392,7 +391,7 @@ export const competitionMaster = {
               this.close();
               if (response.data.success == "true") {
                 Global.showSuccessAlert(true, "success", response.data.message);
-                this.getCompetitionTypeList();
+                this.getCompetitionMasterList();
               } else if (response.data.result == "error") {
                 Global.showErrorAlert(true, "error", response.data.message);
               }
@@ -441,6 +440,7 @@ export const competitionMaster = {
                   : this.item.comp_master_start_day !== null
                   ? this.item.comp_master_start_day
                   : null,
+
               comp_master_rest_day:
                 typeof this.item.comp_master_rest_day === "object"
                   ? this.item.comp_master_rest_day
@@ -460,7 +460,7 @@ export const competitionMaster = {
               this.close();
               if (response.data.success == "true") {
                 Global.showSuccessAlert(true, "success", response.data.message);
-                this.getCompetitionTypeList();
+                this.getCompetitionMasterList();
               } else if (response.data.result == "error") {
                 Global.showErrorAlert(true, "error", response.data.message);
               }

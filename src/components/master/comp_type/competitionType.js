@@ -58,7 +58,7 @@ export const competitionType = {
       ],
 
       pagination: {},
-      entity: "Type",
+      entity: "Competition Type",
       // search
       searchText: "",
       // add edit
@@ -68,7 +68,7 @@ export const competitionType = {
       addEditDialog: false,
       isFormAddEditValid: false,
       isAddEdit: true,
-      addUpdateButtonText: "Add Type",
+      addUpdateButtonText: "Add Competition Type",
       addEditText: "Add",
       isLoaderActive: false,
       isDialogLoaderActive: false,

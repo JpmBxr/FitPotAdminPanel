@@ -124,6 +124,16 @@ const router = new Router({
             requiresAuth: true,
           },
         },
+        {
+          path: "/home/reports/userDeviceData/user-device-data",
+          component:
+            require("../components/reports/userDeviceData/UserDeviceData.vue")
+              .default,
+          name: "User Device Data ", 
+          meta: {
+            requiresAuth: true,
+          },
+        },
 
         //#endregion
       ],

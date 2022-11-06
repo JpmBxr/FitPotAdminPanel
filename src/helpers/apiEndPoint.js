@@ -59,12 +59,13 @@ export const ApiEndPoint = {
   //#endregion
   //#region User
   Users:{
-    webGetRolesWithoutPagination: "webGetRolesWithoutPagination",
+    
     webGetUsers: "webGetUsers",
     webSaveUsers: "webSaveUsers",
     webUpdateUsers: "webUpdateUsers",
-    webChangeUsersStatus: "webChangeUsersStatus",
     webDeleteUsers: "webDeleteUsers",
+    webChangeUsersStatus: "webChangeUsersStatus",
+    webGetRolesWithoutPagination: "webGetRolesWithoutPagination",
   },
   //#endregion
   //#region Permissions
@@ -87,6 +88,11 @@ export const ApiEndPoint = {
 
   UserWiseComepetition: {
     webGetUserWiseComepetitionReport: "webGetUserWiseComepetitionReport",
+  },
+
+  UserDeviceData: {
+    webGetUserDeviceDataReport: "webGetUserDeviceDataReport",
+    webGetUserWithoutPagination: "webGetUserWithoutPagination",
   },
   //#endregion
 };

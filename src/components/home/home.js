@@ -11,12 +11,12 @@ export const home = {
       menuColor: Global.menuColor,
       menuItemsUsers: [
         {
-          text: "Master",
+          text: "Competition",
           icon: "mdi-shield-account",
           to: "/home/master/comp_master/competition-master",
         },
         {
-          text: "Type",
+          text: "Competition Type",
           icon: "mdi-shield-check-outline",
           to: "/home/master/competition/competition-type",
         },
@@ -52,6 +52,11 @@ export const home = {
           text: "Subscribe User",
           icon: "mdi-chevron-double-right",
           to: "/home/reports/subscribeUser/subscribe-user",
+        },
+        {
+          text: "User Device Data",
+          icon: "mdi-chevron-double-right",
+          to: "/home/reports/userDeviceData/user-device-data",
         },
         {
           text: "User Wise Comepetition",

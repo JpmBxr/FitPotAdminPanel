@@ -143,7 +143,7 @@
       <v-dialog
         transition="dialog-top-transition"
         v-model="addEditDialog"
-        max-width="400"
+        max-width="600"
         scrollable
         :fullscreen="$vuetify.breakpoint.smAndDown"
         persistent
@@ -177,7 +177,7 @@
                 lazy-validation
               >
                 <v-row class="mx-auto d-flex">
-                  <v-col cols="12" md="12" class="pb-1">
+                  <v-col cols="12" md="6" class="pb-1">
                     <v-autocomplete
                       v-model="item.UserType"
                       :items="userTypeItems"
@@ -198,7 +198,7 @@
                     >
                   </v-col>
 
-                  <v-col cols="12" md="12" class="pt-5">
+                  <v-col cols="12" md="6" class="pt-5">
                     <v-text-field
                       v-model="item.user_mobile"
                       dense
@@ -216,8 +216,10 @@
                       </template>
                     </v-text-field>
                   </v-col>
+                </v-row>
 
-                  <v-col cols="12" md="12" class="pt-5">
+                <v-row>
+                  <v-col cols="12" md="6" class="pt-5">
                     <v-text-field
                       v-model="item.user_email"
                       dense
@@ -232,8 +234,8 @@
                       </template>
                     </v-text-field>
                   </v-col>
-
-                  <v-col cols="12" md="12" class="pt-5">
+  
+                  <v-col cols="12" md="6" class="pt-5">
                     <v-text-field
                       v-model="item.user_first_name"
                       dense
@@ -248,8 +250,10 @@
                       </template>
                     </v-text-field>
                   </v-col>
+                </v-row>
 
-                  <v-col cols="12" md="12" class="pt-5">
+                <v-row>
+                  <v-col cols="12" md="6" class="pt-5">
                     <v-text-field
                       v-model="item.user_last_name"
                       dense
@@ -264,8 +268,8 @@
                       </template>
                     </v-text-field>
                   </v-col>
-
-                  <v-col cols="12" md="12" class="pt-5">
+                
+                  <v-col cols="12" md="6" class="pt-5">
                     <v-text-field
                       v-model="item.user_age"
                       dense
