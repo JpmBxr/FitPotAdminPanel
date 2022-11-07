@@ -163,11 +163,11 @@ export const competitionMaster = {
   //#endregion
 
   //#region loading activity, week days, rest day on page load/ mount
-   mounted() {
+  mounted() {
     // Show Add in dialog
     this.getActivity();
-     this.getWeekDay();
-     this.getRestDay();
+    this.getWeekDay();
+    this.getRestDay();
   },
   //#endregion
 
@@ -393,40 +393,40 @@ export const competitionMaster = {
     },
     //#endregion
 
-       //#region  show add/edit dialog
-       showAddEditDialog(item) {
-        // Show Add
-        if (item == null && this.isAddEdit == true) {
-          this.addEditText = `Add ${this.entity}`;
-          this.addEditDialog = true;
-          this.addUpdateButtonText = " Add ";
-        } else {
-          // Show Edit (Update)
-          let comp_master_start_day = this.weekDayItems
-            .filter((w) =>
-              item?.comp_master_start_day.split(",").includes(String(w.id))
-            )
-            .map((d) => d);
-          let comp_master_rest_day = this.restDayItems
-            .filter((w) =>
-              item?.comp_master_rest_day.split(",").includes(String(w.id))
-            )
-            .map((d) => d);
-          this.item =  Object.assign(
+    //#region  show add/edit dialog
+    showAddEditDialog(item) {
+      // Show Add
+      if (item == null && this.isAddEdit == true) {
+        this.addEditText = `Add ${this.entity}`;
+        this.addEditDialog = true;
+        this.addUpdateButtonText = " Add ";
+      } else {
+        // Show Edit (Update)
+        let comp_master_start_day = this.weekDayItems
+          .filter((w) =>
+            item?.comp_master_start_day.split(",").includes(String(w.id))
+          )
+          .map((d) => d);
+        let comp_master_rest_day = this.restDayItems
+          .filter((w) =>
+            item?.comp_master_rest_day.split(",").includes(String(w.id))
+          )
+          .map((d) => d);
+        this.item = Object.assign(
           {},
           {
             ...item,
             comp_master_start_day,
             comp_master_rest_day,
           });
-          this.addEditText = `Edit ${this.entity} : ` + item.comp_master_name;
-          this.addEditDialog = true;
-          this.addUpdateButtonText = "Update";
-         this.getCategory();
-         this.getCompetitionType();
-        }
-      },
-      //#endregion  
+        this.addEditText = `Edit ${this.entity} : ` + item.comp_master_name;
+        this.addEditDialog = true;
+        this.addUpdateButtonText = "Update";
+        this.getCategory();
+        this.getCompetitionType();
+      }
+    },
+    //#endregion  
 
     //#region  add/edit item
     addEditItem() {
@@ -508,23 +508,21 @@ export const competitionMaster = {
               comp_master_per_partition_value:
                 this.item.comp_master_per_partition_value,
 
-              comp_master_start_day:
-                typeof this.item.comp_master_start_day === "object"
-                  ? this.item.comp_master_start_day
-                      .map((d) => d.comp_master_start_day)
-                      .join(",")
-                  : this.item.comp_master_start_day !== null
-                  ? this.item.comp_master_start_day
-                  : null,
+              comp_master_start_day: 
+              Array.isArray(this.item.comp_master_start_day) 
+              ? this.item.comp_master_start_day
+              .map(d => typeof d === "object" 
+              ? d.id : d)
+              .join(",") 
+              : "",
 
-              comp_master_rest_day:
-                typeof this.item.comp_master_rest_day === "object"
-                  ? this.item.comp_master_rest_day
-                      .map((d) => d.comp_master_rest_day)
-                      .join(",")
-                  : this.item.comp_master_rest_day !== null
-                  ? this.item.comp_master_rest_day
-                  : null,
+              comp_master_rest_day: 
+              Array.isArray(this.item.comp_master_rest_day) 
+              ? this.item.comp_master_rest_day
+              .map(d => typeof d === "object" 
+              ? d.id : d)
+              .join(",") 
+              : "",
 
               comp_master_id: this.item.comp_master_id,
               comp_master_created_by: 1,
