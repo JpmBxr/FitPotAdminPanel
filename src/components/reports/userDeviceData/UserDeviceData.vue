@@ -40,7 +40,7 @@
           <v-row dense class="mt-5 px-4">
             <v-col cols="3">
               <v-autocomplete
-                v-model="user_id"
+                v-model="item.user_id"
                 :items="userItems"
                 dense
                 chips

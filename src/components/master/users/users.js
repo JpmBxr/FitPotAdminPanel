@@ -319,7 +319,7 @@ export const users = {
         )
           .then((response) => {
             this.isLoaderActive = false;
-            if (response.data.success == "true") {
+            if (response.data.result == "success") {
               Global.showSuccessAlert(true, "success", response.data.message);
               this.getUsersList();
             } else if (response.data.result == "error") {

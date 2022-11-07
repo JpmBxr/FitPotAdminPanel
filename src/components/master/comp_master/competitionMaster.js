@@ -275,6 +275,82 @@ export const competitionMaster = {
     },
     //#endregion
 
+    /*
+
+       getMasterAmeneties() {
+             this.isLoaderActive = true;
+             ApiService.get("GetMasterAmenitiesWithoutPagination", {})
+               .then((response) => {
+                 this.isLoaderActive = false;
+                 this.ameneties = response.data.resultData;
+               })
+               .catch((error) => {
+                 this.isLoaderActive = false;
+                 console.log(error);
+                 if (
+                   error.response.status != 401 &&
+                   error.response.status != 403
+                 ) {
+                   Global.showErrorAlert(true, "error", "Something went wrong");
+                 }
+               });
+           },
+
+           getPropertyMasterAmeneties() {
+             this.isLoaderActive = true;
+             ApiService.get("getSelectedPropertyAmenities", {
+               propertyId: this.propertyId,
+             })
+               .then((response) => {
+                 this.isLoaderActive = false;
+                 for (let x = 0; x < response.data.resultData.length; x++) {
+                   this.propertyAmeneties.push(
+                     response.data.resultData[x].amenities_id
+                   );
+                 }
+               })
+               .catch((error) => {
+                 this.isLoaderActive = false;
+
+                 if (
+                   error.response.status != 401 &&
+                   error.response.status != 403
+                 ) {
+                   Global.showErrorAlert(true, "error", "Something went wrong");
+                 }
+               });
+           },
+
+           saveAmeneties() {
+             this.isLoaderActive = true;
+
+             ApiService.post("savePropertyMappingAmenities", {
+               ammentiesId: this.propertyAmeneties.toString(),
+               propertyId: this.propertyId,
+               created_by: secureLS.get(Global.userId),
+             })
+
+               .then((response) => {
+                 this.isLoaderActive = false;
+                 Global.showSuccessAlert(
+                   true,
+                   "success",
+                   response.data.message
+                 );
+               })
+               .catch((error) => {
+                 this.isLoaderActive = false;
+                 if (
+                   error.response.status != 401 &&
+                   error.response.status != 403
+                 ) {
+                   Global.showErrorAlert(true, "error", "Something went wrong");
+                 }
+               });
+           },
+
+    */
+
     //#region  to load Week Day
     getWeekDay() {
       this.isDialogLoaderActive = true;

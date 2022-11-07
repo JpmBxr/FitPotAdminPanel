@@ -417,6 +417,21 @@
                     </v-text-field>
                   </v-col>
 
+                  <!-- <v-col cols="12">
+                    <v-autocomplete
+                      v-model="propertyAmeneties"
+                      :items="ameneties"
+                      dense
+                      chips
+                      small-chips
+                      label="Select Aminities"
+                      multiple
+                      item-value="id"
+                      item-text="name"
+                      solo
+                    ></v-autocomplete>
+                  </v-col> -->
+
                   <v-col cols="12" md="6">
                     <v-autocomplete
                       v-model="item.comp_master_start_day"
@@ -439,6 +454,7 @@
                     </v-autocomplete>
                   </v-col>
                 </v-row>
+
                 <v-row class="mx-4">
                   <v-col cols="12" md="6">
                     <v-autocomplete

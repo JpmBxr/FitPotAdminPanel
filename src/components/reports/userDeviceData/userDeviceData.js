@@ -18,48 +18,26 @@ export const userDeviceData = {
           align: "start",
         },
         {
-          text: "Full Name ",
-          value: "user_full_name",
-          width: "15%",
+          text: "Fitness Step",
+          value: "total_user_fitness_step",
+          width: "35%",
           sortable: true,
           align: "start",
         },
         {
-          text: "Mobile",
-          value: "user_mobile",
+          text: "Calorie Burnt",
+          value: "total_calorie_burnt",
           sortable: false,
-          width: "15%",
+          width: "30%",
           align: "start",
         },
         {
-          text: "Competition Name",
-          value: "comp_master_name",
+          text: "Total Distance",
+          value: "total_distance",
           sortable: false,
-          width: "20%",
-          align: "start",
-        },
-        {
-          text: "Total KM",
-          value: "comp_master_total_km",
-          sortable: false,
-          width: "15%",
-          align: "start",
-        },
-        {
-          text: "Start Date",
-          value: "comp_schedule_start_date",
-          sortable: false,
-          width: "15%",
-          align: "start",
-        },
-        {
-          text: "End Date",
-          value: "comp_schedule_end_date",
-          sortable: false,
-          width: "15%",
-          align: "start",
-        },
-       
+          width: "30%",
+          align: "end",
+        }, 
       ],
       tableItems: [],
       totalItemsInDB: 0,
@@ -72,6 +50,7 @@ export const userDeviceData = {
       show: true,
       user_id: null,
       userItems: [],
+      item:{},
       //from_date
       from_date: new Date(
         Date.now() - new Date().getTimezoneOffset() * 60000
@@ -90,13 +69,9 @@ export const userDeviceData = {
 
       //excel
       excelFields: {
-        user_full_name: "user_full_name",
-        user_mobile: "user_mobile",
-        comp_master_name: "comp_master_name",
-        comp_master_total_km: "comp_master_total_km",
-        comp_schedule_start_date: "comp_schedule_start_date",
-        comp_schedule_end_date: "comp_schedule_end_date"
-        
+        total_user_fitness_step: "total_user_fitness_step",
+        total_calorie_burnt: "total_calorie_burnt",
+        total_distance: "total_distance",
       },
       excelFileName: "UserDeviceData" + moment().format("DD/MM/YYYY") + ".xls",
     };
@@ -105,6 +80,9 @@ export const userDeviceData = {
   //Created
   created() {
     this.getDetails();
+  },
+  //Mounted
+  mounted() {
     this.getUser();
   },
 
@@ -138,7 +116,7 @@ export const userDeviceData = {
       sortDesc = sortDesc.length > 0 && sortDesc[0] ? "desc" : "asc";
       sortBy = sortBy.length == 0 ? `user_id` : sortBy[0];
       ApiService.get(ApiEndPoint.UserDeviceData.webGetUserDeviceDataReport, {
-        user_id: this.user_id,
+        user_id: this.item.user_id,
         from_date: this.from_date,
         to_date: this.to_date,
 
@@ -149,9 +127,10 @@ export const userDeviceData = {
         searchText: this.searchText,
       })
         .then((response) => {
+          console.log(response.data.resultData.total);
           console.log("getDetails============>", response);
           this.tableDataLoading = false;
-          this.tableItems = response.data.resultData.data;
+          this.tableItems = response.data.resultData;
           this.totalItemsInDB = response.data.resultData.total;
         })
         .catch((error) => {
